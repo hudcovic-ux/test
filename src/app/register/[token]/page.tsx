@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, AlertCircle } from "lucide-react";
+import Image from "next/image";
 
 interface InvitationData {
   email: string;
@@ -128,10 +129,19 @@ export default function RegisterPage({
     <div className="min-h-screen flex items-center justify-center bg-slate-900 px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent">
-            CCS Portal
+          <div className="flex justify-center mb-4">
+            <Image
+              src="/logo.svg"
+              alt="Snadnee"
+              width={64}
+              height={64}
+              className="rounded-lg"
+            />
+          </div>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-500 via-blue-500 to-pink-500 bg-clip-text text-transparent">
+            Snadnee Client Space
           </h1>
-          <p className="text-slate-400 mt-2">Custom Client Space</p>
+          <p className="text-slate-400 mt-2">Klientský portál</p>
         </div>
 
         <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">

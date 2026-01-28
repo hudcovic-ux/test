@@ -4,7 +4,7 @@ const SMTP_HOST = process.env.SMTP_HOST || "";
 const SMTP_PORT = parseInt(process.env.SMTP_PORT || "587", 10);
 const SMTP_USER = process.env.SMTP_USER || "";
 const SMTP_PASS = process.env.SMTP_PASS || "";
-const SMTP_FROM = process.env.SMTP_FROM || "CCS Portal <noreply@example.com>";
+const SMTP_FROM = process.env.SMTP_FROM || "Snadnee Client Space <noreply@example.com>";
 
 // Create reusable transporter
 const transporter = nodemailer.createTransport({
@@ -51,11 +51,11 @@ export const EmailService = {
 
     return this.send({
       to: email,
-      subject: `You've been invited to join ${organizationName} on CCS`,
+      subject: `You've been invited to join ${organizationName} na Snadnee`,
       text: `
 Hi,
 
-${inviterName} has invited you to join ${organizationName} on CCS (Custom Client Space).
+${inviterName} has invited you to join ${organizationName} na Snadnee (Custom Client Space).
 
 Click the link below to create your account:
 ${inviteUrl}
@@ -63,7 +63,7 @@ ${inviteUrl}
 This invitation will expire in 7 days.
 
 Best regards,
-CCS Portal
+Snadnee Client Space
       `.trim(),
       html: `
 <!DOCTYPE html>
@@ -80,13 +80,13 @@ CCS Portal
 <body>
   <div class="container">
     <h1>You've been invited!</h1>
-    <p><strong>${inviterName}</strong> has invited you to join <strong>${organizationName}</strong> on CCS (Custom Client Space).</p>
+    <p><strong>${inviterName}</strong> has invited you to join <strong>${organizationName}</strong> na Snadnee (Custom Client Space).</p>
     <p>Click the button below to create your account:</p>
     <a href="${inviteUrl}" class="button">Accept Invitation</a>
     <p>Or copy this link: ${inviteUrl}</p>
     <div class="footer">
       <p>This invitation will expire in 7 days.</p>
-      <p>Best regards,<br>CCS Portal</p>
+      <p>Best regards,<br>Snadnee Client Space</p>
     </div>
   </div>
 </body>
@@ -120,7 +120,7 @@ ${authorName} added a new comment on ticket ${ticketId}:
 View the ticket: ${ticketUrl}
 
 Best regards,
-CCS Portal
+Snadnee Client Space
       `.trim(),
       html: `
 <!DOCTYPE html>
@@ -143,7 +143,7 @@ CCS Portal
     <div class="comment">${commentText}</div>
     <a href="${ticketUrl}" class="button">View Ticket</a>
     <div class="footer">
-      <p>Best regards,<br>CCS Portal</p>
+      <p>Best regards,<br>Snadnee Client Space</p>
     </div>
   </div>
 </body>
@@ -178,7 +178,7 @@ To: ${newState}
 View the ticket: ${ticketUrl}
 
 Best regards,
-CCS Portal
+Snadnee Client Space
       `.trim(),
       html: `
 <!DOCTYPE html>
@@ -207,7 +207,7 @@ CCS Portal
     </div>
     <a href="${ticketUrl}" class="button">View Ticket</a>
     <div class="footer">
-      <p>Best regards,<br>CCS Portal</p>
+      <p>Best regards,<br>Snadnee Client Space</p>
     </div>
   </div>
 </body>
@@ -238,7 +238,7 @@ The ticket ${ticketId} has been assigned to ${newAssigneeName}.
 View the ticket: ${ticketUrl}
 
 Best regards,
-CCS Portal
+Snadnee Client Space
       `.trim(),
       html: `
 <!DOCTYPE html>
@@ -259,7 +259,7 @@ CCS Portal
     <p>The ticket <strong>${ticketId}</strong> has been assigned to <strong>${newAssigneeName}</strong>.</p>
     <a href="${ticketUrl}" class="button">View Ticket</a>
     <div class="footer">
-      <p>Best regards,<br>CCS Portal</p>
+      <p>Best regards,<br>Snadnee Client Space</p>
     </div>
   </div>
 </body>

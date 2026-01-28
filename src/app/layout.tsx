@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CCS Portal - Custom Client Space",
-  description: "Client portal for managing tickets and projects",
+  title: "Snadnee Client Space",
+  description: "Klientský portál pro správu tiketů a projektů",
   icons: {
     icon: "/favicon.ico",
   },

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
@@ -39,11 +40,17 @@ export function Sidebar() {
     <div className="flex flex-col h-full w-64 bg-slate-900 border-r border-slate-800">
       {/* Logo */}
       <div className="flex items-center h-16 px-6 border-b border-slate-800">
-        <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center">
-            <span className="text-white font-bold text-sm">CCS</span>
-          </div>
-          <span className="text-lg font-semibold text-slate-100">Portal</span>
+        <Link href="/dashboard" className="flex items-center gap-3">
+          <Image
+            src="/logo.svg"
+            alt="Snadnee"
+            width={32}
+            height={32}
+            className="rounded-lg"
+          />
+          <span className="text-lg font-semibold bg-gradient-to-r from-cyan-500 via-blue-500 to-pink-500 bg-clip-text text-transparent">
+            SCS
+          </span>
         </Link>
       </div>
 
