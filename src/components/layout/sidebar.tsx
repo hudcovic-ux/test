@@ -12,6 +12,7 @@ import {
   Settings,
   LogOut,
   Building2,
+  Shield,
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -28,7 +29,9 @@ const userNavigation = [
 ];
 
 const adminNavigation = [
-  { name: "Organizations", href: "/admin/organizations", icon: Building2 },
+  { name: "Přehled", href: "/admin", icon: Shield },
+  { name: "Organizace", href: "/admin/organizations", icon: Building2 },
+  { name: "Uživatelé", href: "/admin/users", icon: Users },
 ];
 
 export function Sidebar() {
