@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id             String        @id @default(cuid())
+  name           String
+  youtrackClient String        @unique // hodnota pro filtr v YouTrack
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  users        User[]
+  fieldConfigs FieldConfig[]
+  invitations  Invitation[]
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         UserRole @default(USER)
+
+  // Notifikační preference
+  notifyEmail     Boolean @default(true)
+  notifyInApp     Boolean @default(true)
+  notifyOnComment Boolean @default(true)
+  notifyOnState   Boolean @default(true)
+  notifyOnAssignee Boolean @default(true)
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  notifications   Notification[]
+  invitationsSent Invitation[]   @relation("InvitedBy")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum UserRole {
+  SUPER_ADMIN // Může spravovat všechny organizace
+  ADMIN       // Může zvát uživatele do své organizace
+  USER        // Běžný uživatel
+}
+
+model FieldConfig {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  fieldName    String  // např. "state", "type", "assignee"
+  visible      Boolean @default(true)
+  editable     Boolean @default(false)
+  displayOrder Int     @default(0)
+
+  @@unique([organizationId, fieldName])
+}
+
+model Invitation {
+  id             String       @id @default(cuid())
+  email          String
+  token          String       @unique
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  createdById String
+  createdBy   User   @relation("InvitedBy", fields: [createdById], references: [id])
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  type          NotificationType
+  ticketId      String           // YouTrack issue ID
+  ticketSummary String           // Pro zobrazení bez dalšího API callu
+  message       String
+  read          Boolean          @default(false)
+
+  createdAt DateTime @default(now())
+}
+
+enum NotificationType {
+  COMMENT_ADDED
+  STATE_CHANGED
+  ASSIGNEE_CHANGED
+}
