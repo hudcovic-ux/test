@@ -1,19 +1,24 @@
-import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export default auth((req) => {
-  const isLoggedIn = !!req.auth;
-  const isOnDashboard = req.nextUrl.pathname.startsWith("/dashboard");
-  const isOnTickets = req.nextUrl.pathname.startsWith("/tickets");
-  const isOnProfile = req.nextUrl.pathname.startsWith("/profile");
-  const isOnTeam = req.nextUrl.pathname.startsWith("/team");
-  const isOnAdmin = req.nextUrl.pathname.startsWith("/admin");
-  const isOnLogin = req.nextUrl.pathname.startsWith("/login");
-  const isOnRegister = req.nextUrl.pathname.startsWith("/register");
-  const isOnApi = req.nextUrl.pathname.startsWith("/api");
+export async function middleware(req: NextRequest) {
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET });
+  const isLoggedIn = !!token;
 
-  // Allow API routes to handle their own auth
-  if (isOnApi) {
+  const { pathname } = req.nextUrl;
+
+  const isOnDashboard = pathname.startsWith("/dashboard");
+  const isOnTickets = pathname.startsWith("/tickets");
+  const isOnProfile = pathname.startsWith("/profile");
+  const isOnTeam = pathname.startsWith("/team");
+  const isOnAdmin = pathname.startsWith("/admin");
+  const isOnLogin = pathname.startsWith("/login");
+  const isOnRegister = pathname.startsWith("/register");
+  const isOnApi = pathname.startsWith("/api");
+
+  // Allow API routes, static files, and logo
+  if (isOnApi || pathname.startsWith("/_next") || pathname.endsWith(".svg") || pathname.endsWith(".ico")) {
     return NextResponse.next();
   }
 
@@ -28,12 +33,12 @@ export default auth((req) => {
   }
 
   // Admin routes require SUPER_ADMIN role
-  if (isOnAdmin && req.auth?.user?.role !== "SUPER_ADMIN") {
+  if (isOnAdmin && token?.role !== "SUPER_ADMIN") {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: [
